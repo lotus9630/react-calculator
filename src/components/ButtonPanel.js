@@ -1,37 +1,44 @@
 import "./ButtonPanel.css";
 import Button from "./Button";
+import calculate from "../logic/calculate";
 
-function Panel() {
+function Panel({ input, setInput }) {
+    const clickButton = (e) => {
+        const newInput = e.target.name;
+        const result = calculate([...input], newInput);
+        setInput(result);
+    };
     return (
         <section className="panel">
             <article>
-                <Button name="AC" />
-                <Button name="+/-" />
-                <Button name="%" />
-                <Button name="÷" orange />
+                <Button name="AC" clickButton={clickButton} />
+                <Button name="+/-" clickButton={clickButton} />
+                <Button name="%" clickButton={clickButton} />
+                <Button name="÷" orange clickButton={clickButton} />
             </article>
             <article>
-                <Button name="7" />
-                <Button name="8" />
-                <Button name="9" />
-                <Button name="x" orange />
+                <Button name="7" clickButton={clickButton} />
+                <Button name="8" clickButton={clickButton} />
+                <Button name="9" clickButton={clickButton} />
+                <Button name="x" orange clickButton={clickButton} />
             </article>
             <article>
-                <Button name="4" />
-                <Button name="5" />
-                <Button name="6" />
-                <Button name="-" orange />
+                <Button name="4" clickButton={clickButton} />
+                <Button name="5" clickButton={clickButton} />
+                <Button name="6" clickButton={clickButton} />
+                <Button name="-" orange clickButton={clickButton} />
             </article>
             <article>
-                <Button name="1" />
-                <Button name="2" />
-                <Button name="3" />
-                <Button name="+" orange />
+                <Button name="1" clickButton={clickButton} />
+                <Button name="2" clickButton={clickButton} />
+                <Button name="3" clickButton={clickButton} />
+                <Button name="+" orange clickButton={clickButton} />
             </article>
             <article>
-                <Button name="0" extended />
-                <Button name="." />
-                <Button name="=" orange />
+                <Button name="0" clickButton={clickButton} />
+                <Button name="." clickButton={clickButton} />
+                <Button name="C" clickButton={clickButton} />
+                <Button name="=" orange clickButton={clickButton} />
             </article>
         </section>
     );

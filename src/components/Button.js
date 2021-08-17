@@ -1,6 +1,6 @@
 import "./Button.css";
 
-function Button({ name, extended, orange }) {
+function Button({ name, extended, orange, clickButton }) {
     const classList = [
         "panel-button-box",
         extended ? "extended" : "",
@@ -8,7 +8,9 @@ function Button({ name, extended, orange }) {
     ];
     return (
         <div className={classList.join(" ").trim()}>
-            <button className="panel-button">{name}</button>
+            <button className="panel-button" name={name} onClick={clickButton}>
+                {name}
+            </button>
         </div>
     );
 }

@@ -4,10 +4,11 @@ import Display from "./Display";
 import ButtonPanel from "./ButtonPanel";
 
 function App() {
+    const [input, setInput] = useState(["0"]);
     return (
         <div className="app">
-            <Display />
-            <ButtonPanel />
+            <Display input={input} />
+            <ButtonPanel setInput={setInput} input={input} />
         </div>
     );
 }

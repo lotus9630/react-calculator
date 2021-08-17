@@ -1,9 +1,9 @@
 import "./Display.css";
 
-function Display() {
+function Display({ input }) {
     return (
         <section className="display">
-            <div>0</div>
+            <div>{input}</div>
         </section>
     );
 }
