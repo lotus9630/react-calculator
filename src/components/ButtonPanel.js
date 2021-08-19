@@ -1,11 +1,11 @@
 import "./ButtonPanel.css";
 import Button from "./Button";
-import calculate from "../logic/calculate";
+import calculator from "../logic/calculator";
 
 function Panel({ input, setInput }) {
     const clickButton = (e) => {
         const newInput = e.target.name;
-        const result = calculate([...input], newInput);
+        const result = calculator([...input], newInput);
         setInput(result);
     };
     return (
