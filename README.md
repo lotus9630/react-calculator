@@ -26,6 +26,8 @@ npm start / yarn start
 
 - [ ] 연산자 중 괄호 기능 추가
 
+- [x] 한 글자씩 취소하는 Cancel 버튼 추가
+
 - [x] 잘못된 입력 시 오류 modal창 생성
 
 - [ ] cypress를 이용한 E2E 테스트 코드 작성
