@@ -30,4 +30,6 @@ npm start / yarn start
 
 - [x] 잘못된 입력 시 오류 modal창 생성
 
-- [ ] cypress를 이용한 E2E 테스트 코드 작성
+- [x] cypress를 이용한 E2E 테스트 코드 작성
+
+- [] localStorage에 계산 기록 저장

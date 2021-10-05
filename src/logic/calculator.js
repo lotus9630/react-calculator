@@ -17,12 +17,7 @@ const calculator = (input, newInput) => {
       input.push(number);
       return input;
     }
-  } else if (
-    newInput === '÷' ||
-    newInput === 'x' ||
-    newInput === '-' ||
-    newInput === '+'
-  ) {
+  } else if (newInput === '÷' || newInput === 'x' || newInput === '-' || newInput === '+') {
     // 사칙연산을 입력한 경우
     if (isNaN(lastInput)) {
       input.push(newInput);
@@ -34,7 +29,7 @@ const calculator = (input, newInput) => {
     }
   } else if (newInput === '+/-') {
     if (isNaN(lastInput)) {
-      alert('입력이 잘못되었습니다');
+      return '연산자에는 부호 변환을 사용할 수 없습니다';
     } else {
       lastInput = String(Number(lastInput) * -1);
       input.push(lastInput);
@@ -42,7 +37,7 @@ const calculator = (input, newInput) => {
     }
   } else if (newInput === '%') {
     if (isNaN(lastInput)) {
-      alert('입력이 잘못되었습니다');
+      return '연산자에는 퍼센트 기호를 사용할 수 없습니다';
     } else {
       lastInput = String(Number(lastInput) / 100);
       input.push(lastInput);
@@ -50,7 +45,7 @@ const calculator = (input, newInput) => {
     }
   } else if (newInput === '.') {
     if (isNaN(lastInput) || lastInput.includes('.')) {
-      alert('입력이 잘못되었습니다');
+      return '소수점이 이미 존재합니다';
     } else {
       input.push(lastInput + newInput);
       return input;
@@ -71,14 +66,14 @@ const calculator = (input, newInput) => {
     return ['0'];
   } else if (newInput === '=') {
     if (isNaN(lastInput)) {
-      alert('입력이 잘못되었습니다');
+      return '마지막 입력이 숫자가 아닙니다';
     } else {
       input.push(lastInput);
       const result = operate(input);
       if (result) {
         return result;
       } else {
-        return false;
+        return '0으로 나눌수 없습니다';
       }
     }
   }

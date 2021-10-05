@@ -2,13 +2,15 @@ import './ButtonPanel.css';
 import Button from './Button';
 import calculator from '../logic/calculator';
 
-function ButtonPanel({ input, setInput, setModalToggle }) {
+function ButtonPanel({ input, setInput, setModalToggle, setModalMessage }) {
   const clickButton = e => {
     const newInput = e.target.name;
     const result = calculator([...input], newInput);
-    if (result) {
+    // 성공시 배열을 반환하고 실패시 에러 메세지를 반환한다.
+    if (typeof result !== 'string') {
       setInput(result);
     } else {
+      setModalMessage(result);
       setModalToggle(true);
       setTimeout(() => {
         setModalToggle(false);
@@ -21,6 +23,7 @@ function ButtonPanel({ input, setInput, setModalToggle }) {
         <Button name="AC" clickButton={clickButton} />
         <Button name="+/-" clickButton={clickButton} cy="switch" />
         <Button name="%" clickButton={clickButton} cy="percentage" />
+        <Button name="()" clickButton={clickButton} cy="bracket" />
         <Button name="÷" orange clickButton={clickButton} cy="div" />
       </article>
       <article>
