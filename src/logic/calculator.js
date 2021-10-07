@@ -1,85 +1,96 @@
 import operate from './operate';
 
-const calculator = (input, newInput) => {
-  let lastInput = input.pop();
+const categorys = {
+  operator: ['÷', 'x', '-', '+'],
+  specialOperator: ['+/-', '%', '()', '.'],
+  cancel: ['AC', 'C'],
+  equal: ['='],
+};
 
-  if (!isNaN(newInput)) {
-    // 숫자를 입력한 경우
-    if (isNaN(lastInput)) {
-      // 연산 기호 이후 숫자를 입력한 경우
-      input.push(lastInput);
+const findCategory = char => {
+  if (!isNaN(char)) return 'number';
+  return Object.keys(categorys).find(key => categorys[key].includes(char));
+};
+
+const calculator = (input, newInput) => {
+  const newInputType = findCategory(newInput);
+  const lastInput = input[input.length - 1];
+  const lastInputType = findCategory(lastInput);
+  let errorMessage = '';
+
+  // 입력값을 4가지 카테고리로 분류 한다
+  // 맨 처음 Input 값 = ["0"]
+  if (newInputType === 'number') {
+    if (lastInputType === 'number') {
+      // ex) ["1"] + 2 = ["12"]
+
+      input[input.length - 1] = String(Number(lastInput + newInput));
+    } else if (lastInputType === 'operator') {
+      // ex) ["0","+"] + 1 = ["0","+","1"]
       input.push(newInput);
-      return input;
-    } else {
-      // 숫자를 연속으로 입력한 경우
-      // 앞에 오는 0을 제거하기 위해 Number 로 형 변환
-      const number = String(Number(lastInput + newInput));
-      input.push(number);
-      return input;
-    }
-  } else if (newInput === '÷' || newInput === 'x' || newInput === '-' || newInput === '+') {
-    // 사칙연산을 입력한 경우
-    if (isNaN(lastInput)) {
-      input.push(newInput);
-      return input;
-    } else {
-      input.push(lastInput);
-      input.push(newInput);
-      return input;
-    }
-  } else if (newInput === '+/-') {
-    if (isNaN(lastInput)) {
-      return '연산자에는 부호 변환을 사용할 수 없습니다';
-    } else {
-      lastInput = String(Number(lastInput) * -1);
-      input.push(lastInput);
-      return input;
-    }
-  } else if (newInput === '%') {
-    if (isNaN(lastInput)) {
-      return '연산자에는 퍼센트 기호를 사용할 수 없습니다';
-    } else {
-      lastInput = String(Number(lastInput) / 100);
-      input.push(lastInput);
-      return input;
-    }
-  } else if (newInput === '.') {
-    if (isNaN(lastInput) || lastInput.includes('.')) {
-      return '소수점이 이미 존재합니다';
-    } else {
-      input.push(lastInput + newInput);
-      return input;
-    }
-  } else if (newInput === 'C') {
-    if (isNaN(lastInput)) {
-      return input;
-    } else {
-      lastInput = parseInt(lastInput / 10);
-      if (lastInput === 0 && input.length === 0) {
-        input.push(0);
-      } else {
-        input.push(lastInput);
+    } else if (lastInputType === 'specialOperator') {
+      if (lastInput === '()') {
+      } else if (lastInput === '.') {
+        // ex) ["0", "."] + 1 = ["0.1"]
+        input.pop();
+        input[input.length - 1] = input[input.length - 1] + lastInput + newInput;
       }
-      return input;
     }
-  } else if (newInput === 'AC') {
-    return ['0'];
-  } else if (newInput === '=') {
-    if (isNaN(lastInput)) {
-      return '마지막 입력이 숫자가 아닙니다';
-    } else {
-      input.push(lastInput);
+  } else if (newInputType === 'operator') {
+    if (lastInputType === 'number') {
+      // ex) ["0"] + "x" = ["0", "x"]
+      input.push(newInput);
+    } else if (lastInputType === 'operator') {
+      // ex) ["0", "+"] + "x" = ["0", "x"]
+      input[input.length - 1] = newInput;
+    }
+  } else if (newInputType === 'specialOperator') {
+    // ['+/-', '%', '()', "."]
+    if (newInput === '+/-') {
+      if (lastInputType === 'number') {
+        input[input.length - 1] *= -1;
+      } else {
+        errorMessage = '연산자에는 부호 변환을 사용할 수 없습니다';
+      }
+    } else if (newInput === '%') {
+      if (lastInputType === 'number') {
+        input[input.length - 1] = String(input[input.length - 1] / 100);
+      } else {
+        errorMessage = '연산자에는 퍼센트 기호를 사용할 수 없습니다';
+      }
+    } else if (newInput === '()') {
+    } else if (newInput === '.') {
+      if (lastInputType === 'number' && Number(lastInput) == parseInt(Number(lastInput))) {
+        // lastInput이 정수인 경우
+        input.push(newInput);
+      } else if (lastInputType === 'number') {
+        // lastInput이 소수인 경우
+        errorMessage = '소수점이 이미 존재합니다';
+      } else {
+        input.push('0.');
+      }
+    }
+  } else if (newInputType === 'cancel') {
+    if (newInput === 'C') {
+      if (!isNaN(lastInput)) {
+        input.push(parseInt(input.pop() / 10));
+      } else if (isNaN(lastInput)) {
+        input.pop();
+      }
+    } else if (newInput === 'AC') {
+      input = ['0'];
+    }
+  } else if (newInputType === 'equal') {
+    if (lastInputType === 'number') {
       const result = operate(input);
-      if (result) {
-        return result;
-      } else {
-        return '0으로 나눌수 없습니다';
-      }
+      if (result) return result;
+      else errorMessage = '입력이 잘못되었습니다';
+    } else if (lastInputType === 'operator') {
+      errorMessage = '마지막 입력에 연산자가 들어있습니다';
     }
   }
 
-  input.push(lastInput);
-  return input;
+  return errorMessage === '' ? input : errorMessage;
 };
 
 export default calculator;

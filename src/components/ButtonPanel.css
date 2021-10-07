@@ -1,13 +1,21 @@
 .panel {
-    background-color: #858694;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
+  background-color: #858694;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .panel > article {
-    width: 100%;
-    display: flex;
-    margin-bottom: 1px;
+  width: 100%;
+  display: flex;
+  margin-bottom: 1px;
+}
+
+.special-symbol {
+  width: 75%;
+}
+
+.special-symbol > .panel-button-box {
+  height: 100%;
 }

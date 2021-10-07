@@ -20,10 +20,12 @@ function ButtonPanel({ input, setInput, setModalToggle, setModalMessage }) {
   return (
     <section className="panel">
       <article>
-        <Button name="AC" clickButton={clickButton} />
-        <Button name="+/-" clickButton={clickButton} cy="switch" />
-        <Button name="%" clickButton={clickButton} cy="percentage" />
-        <Button name="()" clickButton={clickButton} cy="bracket" />
+        <div className="special-symbol">
+          <Button name="AC" clickButton={clickButton} />
+          <Button name="+/-" clickButton={clickButton} cy="switch" />
+          <Button name="%" clickButton={clickButton} cy="percentage" />
+          <Button name="()" clickButton={clickButton} cy="bracket" />
+        </div>
         <Button name="÷" orange clickButton={clickButton} cy="div" />
       </article>
       <article>

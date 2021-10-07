@@ -65,15 +65,15 @@ describe('잘못된 계산 입력을 한 경우', () => {
     cy.get('[data-cy=modal]').should('have.text', '소수점이 이미 존재합니다');
   });
 
-  it('마지막 입력이 숫자가 아닙니다', () => {
+  it('마지막 입력에 연산자가 들어있습니다', () => {
     const formula = ['1', 'mul', '2', 'div', '3', 'sub', 'equal'];
     enterFormula(formula);
-    cy.get('[data-cy=modal]').should('have.text', '마지막 입력이 숫자가 아닙니다');
+    cy.get('[data-cy=modal]').should('have.text', '마지막 입력에 연산자가 들어있습니다');
   });
 
-  it('0으로 나눌수 없습니다', () => {
+  it('입력이 잘못되었습니다', () => {
     const formula = ['1', 'mul', '2', 'div', '3', 'div', '0', 'equal'];
     enterFormula(formula);
-    cy.get('[data-cy=modal]').should('have.text', '0으로 나눌수 없습니다');
+    cy.get('[data-cy=modal]').should('have.text', '입력이 잘못되었습니다');
   });
 });
