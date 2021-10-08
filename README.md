@@ -32,4 +32,4 @@ npm start / yarn start
 
 - [x] cypress를 이용한 E2E 테스트 코드 작성
 
-- [] localStorage에 계산 기록 저장
+- [ ] localStorage에 계산 기록 저장
