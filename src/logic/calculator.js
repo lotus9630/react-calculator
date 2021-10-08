@@ -2,7 +2,7 @@ import operate from './operate';
 
 const categorys = {
   operator: ['÷', 'x', '-', '+'],
-  specialOperator: ['+/-', '%', '()', '.'],
+  specialOperator: ['+/-', '%', '.'],
   cancel: ['AC', 'C'],
   equal: ['='],
 };
@@ -28,11 +28,7 @@ const calculator = (input, newInput) => {
       // ex) ["0","+"] + 1 = ["0","+","1"]
       input.push(newInput);
     } else if (lastInputType === 'specialOperator') {
-      if (lastInput === '(') input.push(newInput);
-      else if (lastInput === ')') {
-        // ex) ["(", 0", "+", "2", ")"] + "2"
-        errorMessage = '숫자가 올 수 없습니다';
-      } else if (lastInput === '.') {
+      if (lastInput === '.') {
         // ex) ["0", "."] + 1 = ["0.1"]
         input.pop();
         input[input.length - 1] = input[input.length - 1] + lastInput + newInput;
@@ -46,9 +42,6 @@ const calculator = (input, newInput) => {
       // ex) ["0", "+"] + "x" = ["0", "x"]
       input[input.length - 1] = newInput;
     } else if (lastInputType === 'specialOperator') {
-      // ex) ["(", "0", "+", "1", ")"] + "x" = ["(", "0", "+", "1", ")", "x"]
-      if (lastInput === ')') input.push(newInput);
-      else if (lastInput === '(') errorMessage = '연산자가 올 수 없습니다';
     }
   } else if (newInputType === 'specialOperator') {
     // ['+/-', '%', '()', "."]
@@ -64,12 +57,6 @@ const calculator = (input, newInput) => {
       } else {
         errorMessage = '연산자에는 퍼센트 기호를 사용할 수 없습니다';
       }
-    } else if (newInput === '()') {
-      if (input.length === 1 && lastInput === '0') {
-        input.pop();
-        input.push('(');
-      } else if (lastInputType === 'number' && input.includes('(')) input.push(')');
-      else if (lastInputType === 'number' && input.includes('(')) input.push(')');
     } else if (newInput === '.') {
       if (lastInputType === 'number' && Number(lastInput) === parseInt(Number(lastInput))) {
         // lastInput이 정수인 경우
